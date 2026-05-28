@@ -7,7 +7,8 @@ define([
 	'utils/CommonUtils',
 	'text!./cohort-reports.html',
 	'components/tabs',
-	'./inclusion-report'
+	'./inclusion-report',
+	'./observation-report'
 ], function (
 	ko,
 	globalConstants,
@@ -22,6 +23,12 @@ define([
 		title: ko.i18n('cohortDefinitions.cohortreports.inclusionReport', 'Inclusion Report'),
 		priority: 1,
 		html: `<cohort-report-inclusion params="{ sourceKey: sourceKey, cohortId: cohortId, isViewDemographic: isViewDemographic, ccGenerateId: ccGenerateId }"></cohort-report-inclusion>`
+	});
+
+	PluginRegistry.add(globalConstants.pluginTypes.COHORT_REPORT, {
+		title: ko.i18n('cohortDefinitions.cohortreports.observationReport', 'Observation Report'),
+		priority: 2,
+		html: `<observation-report params="{ sourceKey: sourceKey, cohortId: cohortId, isViewDemographic: isViewDemographic, ccGenerateId: ccGenerateId }"></observation-report>`
 	});
 
 	class CohortReports extends Component {

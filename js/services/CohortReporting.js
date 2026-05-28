@@ -79,7 +79,7 @@ define(function (require, exports) {
     }, // not implemented
     observation: {
       name: "Observation",
-      reportKey: null,
+      reportKey: 'Observation',
       analyses: [800, 801, 806, 805, 815, 804, 802, 807, 816, 817, 818, 117, 116, 102, 112, 1]
     },
     observationPeriods: {
