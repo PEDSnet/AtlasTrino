@@ -312,6 +312,10 @@ define([
 				title: "InterSystems IRIS",
 				dialect: "iris",
 			},
+			TRINO: {
+				title: "Trino",
+				dialect: "trino",
+			},
 		};
 
 		const eventTypes = {

@@ -161,6 +161,7 @@ define([
         { id: 'snowflake', name: ko.i18n('configuration.viewEdit.dialect.options.snowflake', 'Snowflake')},
         { id: 'synapse', name: ko.i18n('configuration.viewEdit.dialect.options.synapse', 'Azure Synapse') },
         { id: 'iris', name: ko.i18n('configuration.viewEdit.dialect.options.iris', 'InterSystems IRIS') },
+        { id: 'trino' , name:ko.i18n('configuration.viewEdit.dialect.options.trino', 'Trino') },
       ];
 
       this.sourceCaption = ko.computed(() => {
