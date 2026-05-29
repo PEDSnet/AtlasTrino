@@ -1,5 +1,6 @@
 define([
     'knockout',
+    'jquery',
     'services/CohortDefinition',
     'pages/characterizations/services/conversion/PrevalenceStatConverter',
     'pages/characterizations/services/conversion/DistributionStatConverter',
@@ -33,6 +34,7 @@ define([
     'd3-scale-chromatic',
 ], function (
     ko,
+    $,
     CohortDefinitionService,
     PrevalenceStatConverter,
     DistributionStatConverter,
@@ -128,11 +130,16 @@ define([
         async loadData() {
             this.loading(true);
 
-            Promise.all([
-                CohortDefinitionService.getReport(this.cohortId(), this.source().sourceKey, 'observation', this.ccGenerateId())
-            ]).then(([
-                generationResults
-            ]) => {
+            $.ajax({
+                url: config.api.url + 'cohortresults/' + this.source().sourceKey + '/' + this.cohortId() + '/observation?refresh=true',
+                type: 'GET',
+                contentType: 'application/json',
+                error: (error) => {
+                    console.error("Error loading observation report:", error);
+                    authApi.handleAccessDenied(error);
+                    this.loading(false);
+                }
+            }).done((generationResults) => {
                 const count = generationResults?.observationStats?.length ? (generationResults.observationStats.reduce((prev, curr) => [...prev, ...curr.items], []) || []).length : 0;
                 this.showEmptyResults(generationResults.showEmptyResults || null);
                 this.resultsCountFiltered(generationResults.count || count);
