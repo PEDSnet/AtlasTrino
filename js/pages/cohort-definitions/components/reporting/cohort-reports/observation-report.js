@@ -67,6 +67,8 @@ define([
 
         constructor(params) {
             super();
+            console.log('📝 Observation Report Component: Constructor called with params:', params);
+            
             this.reportType = params.reportType;
             this.cohortId = params.cohortId;
             this.ccGenerateId = params.ccGenerateId;
@@ -105,7 +107,17 @@ define([
             this.tableOptions = commonUtils.getTableOptions('M');
             this.datatableLanguage = ko.i18n('datatable.language');
 
-            this.loadData();
+            // Subscribe to source changes to reload data when source is available
+            this.source.subscribe(() => {
+                if (this.source() && this.cohortId()) {
+                    this.loadData();
+                }
+            });
+
+            // Initial load if source is available
+            if (this.source() && this.cohortId()) {
+                this.loadData();
+            }
         }
 
         isResultDownloading(analysisName) {
@@ -129,17 +141,25 @@ define([
 
         async loadData() {
             this.loading(true);
+            
+            console.log('🔍 Observation Report: loadData() called');
+            console.log('  sourceKey:', this.source()?.sourceKey);
+            console.log('  cohortId:', this.cohortId());
+
+            const url = config.api.url + 'cohortresults/' + this.source().sourceKey + '/' + this.cohortId() + '/observation?refresh=true';
+            console.log('  URL:', url);
 
             $.ajax({
-                url: config.api.url + 'cohortresults/' + this.source().sourceKey + '/' + this.cohortId() + '/observation?refresh=true',
+                url: url,
                 type: 'GET',
                 contentType: 'application/json',
                 error: (error) => {
-                    console.error("Error loading observation report:", error);
+                    console.error("🚨 Observation Report Error:", error);
                     authApi.handleAccessDenied(error);
                     this.loading(false);
                 }
             }).done((generationResults) => {
+                console.log('✅ Observation Report Data Received:', generationResults);
                 const count = generationResults?.observationStats?.length ? (generationResults.observationStats.reduce((prev, curr) => [...prev, ...curr.items], []) || []).length : 0;
                 this.showEmptyResults(generationResults.showEmptyResults || null);
                 this.resultsCountFiltered(generationResults.count || count);
