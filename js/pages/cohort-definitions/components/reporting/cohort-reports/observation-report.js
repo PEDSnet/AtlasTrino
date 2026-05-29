@@ -12,7 +12,6 @@ define([
     'components/Component',
     'utils/AutoBind',
     'utils/CommonUtils',
-    './utils',
     'numeral',
     'lodash',
     'd3',
