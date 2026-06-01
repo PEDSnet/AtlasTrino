@@ -28,7 +28,7 @@ define([
 	PluginRegistry.add(globalConstants.pluginTypes.COHORT_REPORT, {
 		title: ko.i18n('cohortDefinitions.cohortreports.observationReport', 'Observation Report'),
 		priority: 2,
-		html: `<observation-report params="{ sourceKey: sourceKey, cohortId: cohortId, isViewDemographic: isViewDemographic, ccGenerateId: ccGenerateId }"></observation-report>`
+		componentName: 'observation-report'
 	});
 
 	class CohortReports extends Component {
