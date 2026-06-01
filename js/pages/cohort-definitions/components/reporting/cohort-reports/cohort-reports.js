@@ -16,24 +16,30 @@ define([
 	PluginRegistry,
 	constants,
 	commonUtils,
-	view
+	view,
+	observationReport
 ) {
 
+	console.log('🔧 cohort-reports.js: Module loading, about to register plugins');
+	
 	PluginRegistry.add(globalConstants.pluginTypes.COHORT_REPORT, {
 		title: ko.i18n('cohortDefinitions.cohortreports.inclusionReport', 'Inclusion Report'),
 		priority: 1,
 		html: `<cohort-report-inclusion params="{ sourceKey: sourceKey, cohortId: cohortId, isViewDemographic: isViewDemographic, ccGenerateId: ccGenerateId }"></cohort-report-inclusion>`
 	});
+	console.log('🔧 cohort-reports.js: Registered inclusion-report');
 
 	PluginRegistry.add(globalConstants.pluginTypes.COHORT_REPORT, {
 		title: ko.i18n('cohortDefinitions.cohortreports.observationReport', 'Observation Report'),
 		priority: 2,
 		componentName: 'observation-report'
 	});
+	console.log('🔧 cohort-reports.js: Registered observation-report');
 
 	class CohortReports extends Component {
 		constructor(params) {
 			super();
+			console.log('🔧 CohortReports constructor called!');
 
 			this.sourceKey = ko.computed(() => params.source() && params.source().sourceKey);
 			this.cohortId = ko.computed(() => params.cohort().id());
@@ -47,8 +53,10 @@ define([
 				ccGenerateId: this.ccGenerateId,
 			};
 
-			this.tabs = PluginRegistry.findByType(globalConstants.pluginTypes.COHORT_REPORT).map(t => {
-				console.log('📊 CohortReports: Processing PluginRegistry tab:', t.title, 'componentName:', t.componentName, 'has html:', !!t.html);
+			const pluginTabs = PluginRegistry.findByType(globalConstants.pluginTypes.COHORT_REPORT);
+			console.log('📊 CohortReports: Found', pluginTabs.length, 'plugin tabs');
+			this.tabs = pluginTabs.map(t => {
+				console.log('📊 CohortReports: Processing tab:', t.title, 'componentName:', t.componentName, 'has html:', !!t.html);
 				return { ...t, componentParams };
 			});
 			
