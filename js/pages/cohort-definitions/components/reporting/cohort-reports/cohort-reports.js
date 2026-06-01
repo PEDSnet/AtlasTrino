@@ -16,7 +16,8 @@ define([
 	PluginRegistry,
 	constants,
 	commonUtils,
-	view
+	view,
+	observationReport
 ) {
 
 	console.log('🔧 cohort-reports.js: Module loading, about to register plugins');
