@@ -47,7 +47,10 @@ define([
 				ccGenerateId: this.ccGenerateId,
 			};
 
-			this.tabs = PluginRegistry.findByType(globalConstants.pluginTypes.COHORT_REPORT).map(t => ({ ...t, componentParams }));
+			this.tabs = PluginRegistry.findByType(globalConstants.pluginTypes.COHORT_REPORT).map(t => {
+				console.log('📊 CohortReports: Processing PluginRegistry tab:', t.title, 'componentName:', t.componentName, 'has html:', !!t.html);
+				return { ...t, componentParams };
+			});
 			
 			if (this.isViewDemographic()) {
 				this.tabs.push({
