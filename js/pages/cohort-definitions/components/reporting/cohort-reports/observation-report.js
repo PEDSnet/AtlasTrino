@@ -295,5 +295,6 @@ define([
         }
     }
 
+    console.log('📋 Observation Report: Registering component as "observation-report"');
     return commonUtils.build('observation-report', ObservationReportView, view);
 });
