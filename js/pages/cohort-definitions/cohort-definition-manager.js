@@ -1513,12 +1513,10 @@ define(['jquery', 'knockout', 'text!./cohort-definition-manager.html',
 		}
 
 		toggleCohortReport(item) {
-			console.log('📊 cohort-definition-manager: toggleCohortReport called for source:', item.sourceKey);
 			if (this.selectedReportSource() && this.selectedReportSource().sourceKey === item.sourceKey) {
 				this.selectedReportSource(null);
 				commonUtils.routeTo('/cohortdefinition/' + this.currentCohortDefinition().id() + '/generation');
 			} else {
-				console.log('📊 cohort-definition-manager: Setting selectedReportSource to:', item.sourceKey);
 				this.selectedReportSource(item);
 				commonUtils.routeTo('/cohortdefinition/' + this.currentCohortDefinition().id() + '/generation/' + item.sourceId);
 			}
