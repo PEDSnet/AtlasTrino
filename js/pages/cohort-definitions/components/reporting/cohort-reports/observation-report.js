@@ -68,6 +68,8 @@ define([
         constructor(params) {
             super();
             console.log('📝 Observation Report Component: Constructor called with params:', params);
+            console.log('📝 Observation Report: sourceKey:', params.sourceKey?.());
+            console.log('📝 Observation Report: cohortId:', params.cohortId?.());
             
             this.reportType = params.reportType;
             this.cohortId = params.cohortId;
