@@ -60,6 +60,7 @@ define([
     FileService
 ) {
 
+    console.log('📋 Observation Report Module: Loading, defining class');
     const TYPE_PREVALENCE = 'prevalence';
 
     class ObservationReportView extends AutoBind(Component) {
