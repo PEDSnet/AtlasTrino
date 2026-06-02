@@ -617,7 +617,10 @@ define(['jquery', 'knockout', 'text!./cohort-definition-manager.html',
 				sortable: false,
 				tooltip: 'Results with Demographics',
 				render: () =>
-				  `<span data-bind="template: {name: 'generation-checkbox-demographic', data: $data }"></span>`,
+				  `<span><input class="hover-toolbox" type="checkbox" data-bind="attr:{ id: $data.sourceKey } , checked: viewDemographic, tooltip: 'Results with Demographics', eventListener: [ 
+					{event: 'mouseover', selector: 'input', callback: $component.addToolTipDemographic },
+					{event: 'mouseout', selector: 'input', callback: $component.removeToolTipDemographic }, 
+					{event: 'mouseup', selector: 'input', callback: $component.handleViewDemographic }]" data-placement="right"/></span>`,
 			}];
 
 			this.stopping = ko.pureComputed(() => this.cohortDefinitionSourceInfo().reduce((acc, target) => ({...acc, [target.sourceKey]: ko.observable(false)}), {}));
