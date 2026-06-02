@@ -51,6 +51,7 @@ define([
 			};
 
 			const pluginTabs = PluginRegistry.findByType(globalConstants.pluginTypes.COHORT_REPORT);
+			console.log('📊 CohortReports constructor: Found', pluginTabs.length, 'plugin tabs:', pluginTabs.map(t => ({ title: t.title, componentName: t.componentName, hasHtml: !!t.html })));
 			this.tabs = pluginTabs.map(t => {
 				return { ...t, componentParams };
 			});
