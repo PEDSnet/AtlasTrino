@@ -74,6 +74,13 @@ define([
             this.reportType = params.reportType;
             this.cohortId = params.cohortId;
             this.ccGenerateId = params.ccGenerateId;
+            // Use the sourceKey directly – it is a computed/observable passed from the manager
+            this.sourceKey = params.sourceKey;
+            // Resolve the full source object when needed (fallback to empty object)
+            this.source = ko.pureComputed(() => {
+                const key = this.sourceKey && this.sourceKey();
+                return sharedState.sources().find(s => s.sourceKey === key) || {};
+            });
             this.prevalenceStatConverter = new PrevalenceStatConverter(this.classes);
             this.distributionStatConverter = new DistributionStatConverter(this.classes);
             this.comparativeDistributionStatConverter = new ComparativeDistributionStatConverter(this.classes);
@@ -91,9 +98,7 @@ define([
             this.selectedItems.subscribe(() => this.updateData);
             this.analysisList = ko.observableArray([]);
             this.canExportAll = ko.pureComputed(() => this.data().analyses && this.data().analyses.length > 0);
-            this.source = ko.pureComputed(() => {
-                return sharedState.sources().find(s => s.sourceKey === params.sourceKey());
-            });
+
             this.stratifiedByTitle = ko.pureComputed(() => this.design().stratifiedBy || '');
 
             this.groupedScatterColorScheme = d3.schemeCategory10;
@@ -109,14 +114,14 @@ define([
             this.tableOptions = commonUtils.getTableOptions('M');
             this.datatableLanguage = ko.i18n('datatable.language');
 
-            // Subscribe to source changes to reload data when source is available
+            // Subscribe to sourceKey changes (or source object changes) to trigger loading
             this.source.subscribe(() => {
                 if (this.source() && this.cohortId()) {
                     this.loadData();
                 }
             });
 
-            // Initial load if source is available
+            // Initial load if sourceKey is already available
             if (this.source() && this.cohortId()) {
                 this.loadData();
             }
@@ -300,3 +305,4 @@ define([
     console.log('📋 Observation Report Module: Registering component with commonUtils.build');
     return commonUtils.build('observation-report', ObservationReportView, view);
 });
+
