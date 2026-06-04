@@ -28,10 +28,17 @@ define([
 		html: `<cohort-report-inclusion params="{ sourceKey: sourceKey, cohortId: cohortId, isViewDemographic: isViewDemographic, ccGenerateId: ccGenerateId }"></cohort-report-inclusion>`
 	});
 
+    // -----------------------------------------------------------------
+    // Observation Report – register the component.
+    // Some UI templates look for a `component` property, while others
+    // honour `componentName`. Supplying both ensures the tab system can
+    // render the view regardless of which convention the template uses.
+    // -----------------------------------------------------------------
 	PluginRegistry.add(globalConstants.pluginTypes.COHORT_REPORT, {
 		title: ko.i18n('cohortDefinitions.cohortreports.observationReport', 'Observation Report'),
 		priority: 2,
-		componentName: 'observation-report'
+        componentName: 'observation-report',   // used by the current tabs view
+        component: 'observation-report'        // fallback for templates expecting `component`
 	});
 
 	class CohortReports extends Component {
@@ -80,3 +87,4 @@ define([
 
 	return commonUtils.build('cohort-reports', CohortReports, view);
 });
+
