@@ -39,11 +39,8 @@ define([
 	PluginRegistry.add(globalConstants.pluginTypes.COHORT_REPORT, {
 		title: ko.i18n('cohortDefinitions.cohortreports.observationReport', 'Observation Report'),
 		priority: 2,
-        // Direct component registration (fallback for newer tabs implementation)
         componentName: 'observation-report',
-        component: 'observation-report',
-        // HTML fallback – renders the same component with the required params.
-        html: `<observation-report params="{ sourceKey: sourceKey, cohortId: cohortId, isViewDemographic: isViewDemographic, ccGenerateId: ccGenerateId }"></observation-report>`
+		component: 'observation-report'
 	});
 
 	class CohortReports extends Component {
