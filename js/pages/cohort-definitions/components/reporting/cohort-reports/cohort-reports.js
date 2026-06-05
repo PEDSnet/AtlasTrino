@@ -30,15 +30,20 @@ define([
 
     // -----------------------------------------------------------------
     // Observation Report – register the component.
-    // Some UI templates look for a `component` property, while others
-    // honour `componentName`. Supplying both ensures the tab system can
-    // render the view regardless of which convention the template uses.
+    // The tabs component (used by CohortReports) can render a report in two ways:
+    //   1) via an `html` template string, or
+    //   2) via a `componentName`/`component` property.
+    // Older versions of Atlas only handled the `html` case for cohort reports.
+    // Providing both guarantees that the tab will be instantiated.
     // -----------------------------------------------------------------
 	PluginRegistry.add(globalConstants.pluginTypes.COHORT_REPORT, {
 		title: ko.i18n('cohortDefinitions.cohortreports.observationReport', 'Observation Report'),
 		priority: 2,
-        componentName: 'observation-report',   // used by the current tabs view
-        component: 'observation-report'        // fallback for templates expecting `component`
+        // Direct component registration (fallback for newer tabs implementation)
+        componentName: 'observation-report',
+        component: 'observation-report',
+        // HTML fallback – renders the same component with the required params.
+        html: `<observation-report params="{ sourceKey: sourceKey, cohortId: cohortId, isViewDemographic: isViewDemographic, ccGenerateId: ccGenerateId }"></observation-report>`
 	});
 
 	class CohortReports extends Component {
