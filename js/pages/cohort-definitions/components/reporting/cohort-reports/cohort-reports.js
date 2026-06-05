@@ -36,11 +36,13 @@ define([
     // Older versions of Atlas only handled the `html` case for cohort reports.
     // Providing both guarantees that the tab will be instantiated.
     // -----------------------------------------------------------------
+	// Restore HTML fallback while also providing componentName/component for proper tab creation
 	PluginRegistry.add(globalConstants.pluginTypes.COHORT_REPORT, {
 		title: ko.i18n('cohortDefinitions.cohortreports.observationReport', 'Observation Report'),
 		priority: 2,
         componentName: 'observation-report',
-		component: 'observation-report'
+		component: 'observation-report',
+		html: `<observation-report params="{ sourceKey: sourceKey, cohortId: cohortId, isViewDemographic: isViewDemographic, ccGenerateId: ccGenerateId }"></observation-report>`
 	});
 
 	class CohortReports extends Component {
