@@ -122,7 +122,8 @@ define([
             });
 
             // Initial load if sourceKey is already available
-            if (this.source() && this.cohortId()) {
+            // Ensure we have a real sourceKey before attempting the first load.
+            if (this.source() && this.source().sourceKey && this.cohortId()) {
                 this.loadData();
             }
         }
