@@ -98,4 +98,3 @@ define([
 
 	return commonUtils.build('cohort-reports', CohortReports, view);
 });
-

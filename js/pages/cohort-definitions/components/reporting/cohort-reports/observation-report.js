@@ -84,7 +84,15 @@ define([
             this.prevalenceStatConverter = new PrevalenceStatConverter(this.classes);
             this.distributionStatConverter = new DistributionStatConverter(this.classes);
             this.comparativeDistributionStatConverter = new ComparativeDistributionStatConverter(this.classes);
-            this.conceptSetStore = ConceptSetStore.characterization();
+            if (ConceptSetStore && typeof ConceptSetStore.characterization === 'function') {
+                // Store is available – keep original functionality
+                this.conceptSetStore    = ConceptSetStore.characterization();
+                this.currentConceptSet  = ko.pureComputed(() => this.conceptSetStore.current());
+            } else {
+                // Store is missing – use a no‑op placeholder
+                this.conceptSetStore    = null;
+                this.currentConceptSet  = ko.pureComputed(() => null);
+            }
             this.currentConceptSet = ko.pureComputed(() => this.conceptSetStore.current());
             this.loading = ko.observable(false);
 
