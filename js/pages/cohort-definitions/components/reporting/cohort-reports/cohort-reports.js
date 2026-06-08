@@ -52,8 +52,15 @@ define([
 			this.sourceKey = ko.computed(() => params.source() && params.source().sourceKey);
 			this.cohortId = ko.computed(() => params.cohort().id());
 			this.isViewDemographic = ko.computed(() => params.source() && params.source().viewDemographic());
-			this.ccGenerateId = ko.computed(() => params.infoSelected() && params.infoSelected().ccGenerateId());
-			
+			// `infoSelected` is optional – the manager sometimes calls this component
+			// without providing it (e.g., when the Reporting pane is opened from a
+			// Cohort Definition without a selected execution). Guard against a missing
+			// function to avoid "params.infoSelected is not a function" errors.
+			this.ccGenerateId = ko.computed(() => {
+				return params.infoSelected && typeof params.infoSelected === 'function'
+					? params.infoSelected().ccGenerateId()
+					: null;
+			});
 			const componentParams =  {
 				sourceKey: this.sourceKey,
 				cohortId: this.cohortId,
