@@ -605,6 +605,14 @@ define([
 							}
 						});
 						break;
+					case 'Observation':
+						$.ajax({
+							url: this.config.api.url + 'cohortresults/' + this.reportSourceKey() + '/' + this.reportCohortDefinitionId() + '/observation?refresh=' + this.refresh(),
+							success: (data) => {
+								this.currentReport(this.reportReportName());
+								this.loadingReport(false);
+							}
+						});
 					case 'Procedure':
 						$.ajax({
 							type: "GET",
